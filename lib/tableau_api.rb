@@ -1,3 +1,4 @@
+require 'cgi'
 require 'httparty'
 require 'builder'
 require 'net/http/post/multipart'

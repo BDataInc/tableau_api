@@ -13,8 +13,17 @@ module TableauApi
         res['tsResponse']['group'] if res.code == 201
       end
 
-      def list
-        url = "sites/#{@client.auth.site_id}/groups"
+      def list(fields: nil, filters: nil)
+        params = fields || filters ? '?' : ''
+
+        field_params = fields&.join(',')
+        params = "#{params}fields=#{field_params}" if field_params&.length&.>(0)
+
+        filter_params = filters&.map { |k, v| "#{k}:#{CGI.escape(v)}" }&.join(',')
+        separator = params.length > 1 ? '&' : ''
+        params = "#{params}#{separator}filter=#{filter_params}" if filter_params&.length&.>(0)
+
+        url = "sites/#{@client.auth.site_id}/groups#{params}"
         @client.connection.api_get_collection(url, 'groups.group')
       end
 
