@@ -20,8 +20,8 @@ require 'tableau_api/resources/jobs'
 
 module TableauApi
   class << self
-    def new(options = {})
-      Client.new(options)
+    def new(**options)
+      Client.new(**options)
     end
   end
 end
